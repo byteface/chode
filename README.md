@@ -71,15 +71,14 @@ why not try some of these examples. install plugin, paste these into a document,
 #p: abstract class java
 
 #p: reverse array in java
-
-#p:reverse array in Java
+             
 
 # NOTICE THIS ONE HAS A PARAMETER - see about them below
 #p:compare arrays python :v
 ```
 
 
-The code block from teh top post is injected into your code.
+The code block from the top post is injected into your code.
 
 
 ## PARAMETERS
