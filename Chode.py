@@ -19,9 +19,7 @@ import re
 # To work your cursor must be ON THE LINE YOU WANT TO RUN and then press save.
 
 
-#p: css round corners
-
-#p: jquery last item in a list :v
+#p: css round corners :v
 
 #p:abstract class java
 
@@ -29,9 +27,7 @@ import re
 
 #p: delete the mongo database
 
-
 #p:compare arrays python
-
 
 
 #p: singleton in python
@@ -232,7 +228,7 @@ class StackoverflowApiCall(threading.Thread):
 
 		if self.params['verbose'] == True:
 
-			print('verbose')
+			#print('verbose')
 			
 			reg = re.compile('<td class="answercell">(.*?)</td>')
 			#reg = re.compile('<div class="post-text" itemprop="text">(.*?)</div>')

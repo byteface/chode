@@ -1,6 +1,9 @@
 ### Chode
 TODO - insert image here
 
+## in short
+injects the best stack overflow answer you need directly into sublime without leaving sublime.
+
 
 ## About
 
