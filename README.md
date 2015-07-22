@@ -41,16 +41,21 @@ I figured it would be cool if code comments could quickly become code examples. 
 
 ## Usage
 
-Chode runs when you save. IMPORTANT - It only analyses the line your cursor is currently on.
+Chode runs when you save.
+IMPORTANT - It only analyses the line your cursor is currently on.
 
-If the line starts with a comment, followed by a 'p', then a colon. ie. (at mo only hashtag works. will add more comments soon)
+If the line starts with a comment, followed by a 'p', then a colon...
 
 ```
+ie. python
 #p:
+
+or javascript
+//p:
+
 ```
 
 then everything after those characters will get sent to stackoverflow as a query. the top link is selected, then the best answer from that link inserted into your code.
-
 
 i.e
 ```
@@ -126,7 +131,6 @@ restart and you're good to go. I will hopefully make it all more proper soon and
 
 ## FUTURE
 ```
-I'm a busy guy and for now, whilst clunky, this is serving it's intended purpose. However I would love to do this...
 
 • detect current language by getting filename. auto search on that language
 • have some parameters i.e.
@@ -134,9 +138,6 @@ I'm a busy guy and for now, whilst clunky, this is serving it's intended purpose
 #p: some question :css :v
 
 the :css parameter search in css even tho im in a .html file. or .js file.
-the :v parameter returns verbose. i.e. whole post.
-
-something like a :nv 'non verbose' parameter to only return the 1st code node only?
 
 paramters to return second / third answer?
 
@@ -146,10 +147,7 @@ settings with various default. i.e. verbose / non verbose.
 
 :gist - instead of checking stackoverflow check gist - (DO LOADS OF THESE?)
 
-a paramter that can return 2nd or 3rd answer?... or way to loop through answers.
 ```
 
-
 if popular write same plugin for other tools??? who knows.
-
 
