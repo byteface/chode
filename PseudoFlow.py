@@ -1,128 +1,151 @@
+
 import sublime, sublime_plugin
-
 import urllib
-#import urllib2
 import threading
-
 import sys
 import os
-
 import re
 
-#http://pythonprogramming.net/urllib-tutorial-python-3/
-#http://pythonprogramming.net/parse-website-using-regular-expressions-urllib/?completed=/regular-expressions-regex-tutorial-python-3/
+# create a tag with a comment, caps P then colon i.e
+
+#P:
+
+# comment will the become a query to stackoverflow, the top answer is returned directly into your code
 
 
-#http://docs.python-guide.org/en/latest/scenarios/scrape/
-
-#print(os.path.join(os.path.dirname(__file__)))
-
-#sys.path.append(os.path.join(os.path.dirname(__file__), "bs4"))
-#sys.path.append(os.path.join(os.path.dirname(__file__), "bs4.builder"))
-
-#import bs4
-
-#from bs4 import BeautifulSoup
-
-#import PseudoFlow.bs4.builder
-#import PseudoFlow.bs4
-#from PseudoFlow.bs4 import BeautifulSoup
-
-
-# command will turn pseudo code comments in to queries on stackoverflow and let you insert code from there
-
-
-#follow this tutorial
+# notes --
+# http://pythonprogramming.net/urllib-tutorial-python-3/
+# http://pythonprogramming.net/parse-website-using-regular-expressions-urllib/?completed=/regular-expressions-regex-tutorial-python-3/
 # http://code.tutsplus.com/tutorials/how-to-create-a-sublime-text-2-plugin--net-22685
+# https://www.sublimetext.com/docs/3/api_reference.html
+
+
+# https://github.com/mgonto/sublime-config/tree/master/Packages/Default
 
 
 
 class ExampleCommand(sublime_plugin.TextCommand):
+
+
+	def normalize_line_endings(self, string):
+	        string = string.replace('\r\n', '\n').replace('\r', '\n')
+	        line_endings = self.view.settings().get('default_line_ending')
+	        if line_endings == 'windows':
+	            string = string.replace('\n', '\r\n')
+	        elif line_endings == 'mac':
+	            string = string.replace('\n', '\r')
+	        return string
+
+
 	def run(self, edit, **args ):
-		self.view.insert(edit, 0, args['test'] )
+
+		# print("args")
+		# print(args)
+
+
+		# NOTE - bit worried this strips newlines out of code. so will have to look at better solution.
+		output = '\n' + '\n'.join( args['result'].split('\\n') )
+
+
+		# print('test')
+		# print(args['result'])
+		# print('test2')
+		# print(args['result'].splitlines())
+
+
+		#output = self.normalize_line_endings(output)
+
+
+		self.view.insert(edit, args['line_length'], output )
 
 
 
-class eventsCommand(sublime_plugin.EventListener):
+
+
+
+
+class EventsCommand(sublime_plugin.EventListener):
 
 	def on_post_save_async(self, view):
 		view.run_command('pseudo')
-		print('on post save')
 
 
-	# def on_modified_async(self,view):
-	# 	print('test thing thing')
+
+
+
+class duplicateCommand(sublime_plugin.TextCommand):
+    def run(self, edit):
+        for region in self.view.sel():
+            # if region.empty():
+            line = self.view.line(region)
+            line_contents = self.view.substr(line) + '\n'
+            self.view.insert(edit, line.begin(), line_contents)
+            # else:
+            #     self.view.insert(edit, region.begin(), self.view.substr(region))
 
 
 class PseudoCommand(sublime_plugin.TextCommand):
     
     def run(self, view):
-        
-        sel = self.view.sel()
-        selected = None
 
-        print('sel')
-        print(sel)
+    	for region in self.view.sel():
+    		line = self.view.line(region)
+    		selected = self.view.substr(line).strip()# + '\n'
 
-        if len(sel) > 0:
-            selected = self.view.substr(self.view.word(sel[0])).strip()
-            print(selected )
-            if selected.startswith('#P:'):
-            	print('run pseudo flow')
-            	selected = selected[1:]
-            	threads=[]
-            	thread=StackoverflowApiCall(sel, selected, 5)
-            	threads.append(thread)
-            	thread.start()
-            	sublime.set_timeout(lambda:self.handle_threads(threads,self.view),100)
+    		print( 'pseudo selected:', selected )
+
+    		if selected.startswith('#P:'):
+    			
+    			print('ok')
+
+				# clean it up for a query
+    			selected = selected.split('#P:')[1].strip()
+
+    			threads=[]
+    			thread=StackoverflowApiCall( self.view.sel(), selected, line, 5 )
+    			threads.append(thread)
+    			thread.start()
+    			sublime.set_timeout(lambda:self.handle_threads(threads,self.view),100)
 
 
     def handle_threads(self,threads,view):
     	for thread in threads:
     		if thread.result is not None:
-    			print('results')
-    			print(thread.result)
-    			#self.view.run_command('example')
-    			#self.view.insert(view, 0, thread.result )
-    			#self.view.insert(self.edit, 0, thread.result )
-    			args={'test':thread.result}
-    			
-    			self.view.run_command('example',args )
+
+    			args={
+    			'result':thread.result,
+    			'linecount':thread.line.begin(),
+    			'line_length':thread.line.end(),
+    			'query':thread.query
+    			}
+
+    			self.view.run_command( 'example', args )
     			
     			return
 
+    	# if fail try again in a sec
     	sublime.set_timeout(lambda:self.handle_threads(threads,view),100)
 
 
 
 class StackoverflowApiCall(threading.Thread):
 
-	def __init__(self, sel, string, timeout):
+	def __init__(self, sel, string, line, timeout):
 		self.sel = sel
-		self.original = string
+		self.query = string
 		self.timeout = timeout
+		self.line = line
 		self.result = None
-
-		print( "sel" )
-		print( sel )
-		print( "string" )
-		print( string )
-
 		threading.Thread.__init__(self)
 
 
 	def run(self):
 
-		resp = urllib.request.urlopen('http://stackoverflow.com/search?tab=relevance&q=compare%20arrays%20python')
+		url = 'http://stackoverflow.com/search?tab=relevance&q=%s' % urllib.parse.quote(self.query)
+		print('url::', url)
+
+		resp = urllib.request.urlopen( url )
 		#print( resp.read().decode('utf-8') )
-
-		#soup = BeautifulSoup( x.read(), 'lxml' )
-		#soup = PseudoFlow.bs4.BeautifulSoup(x.read())
-
-		#p = re.findall(r'<code>(.*?)<code>', str( resp.read().decode('utf-8') ))
-		# print('cunt')
-		# print(p)
-
 
 		r = re.compile('(?<=href=").*?(?=")')
 		data = r.findall( resp.read().decode('utf-8') )
@@ -136,51 +159,75 @@ class StackoverflowApiCall(threading.Thread):
 		# 		print(link)
 
 
-		print(qs[1])
+		#print(qs[1])
 
-		#"http://stackoverflow.com/%s" % data[1]
 		q = urllib.request.urlopen( "http://stackoverflow.com/%s" % qs[1] )
 		
+		reg = re.compile('<code>(.*?)</code>')
 
-		#r = re.compile('(?<=code).*?(?=</code>)')
-
-		p = re.findall(r'(?=<code>).*?(?=</code>)', str( q.read() ))
+		p = reg.search( str(q.read()) )
 		print('----')
-		print(p)
-
-		self.result = p[0]
-		return
-		#self.view.insert(edit, 0, "Hello, World!")
+		#print(p)
+		print(p.groups()[0])
 		
 
 
-		# if fail no result
+
+		self.result = p.groups()[0]
+		return
+		
+		# TODO - if fail no result
 		self.result = False
 
 
 
-	# def run(self):
-	# 	try:
-	# 		x = urllib.request.urlopen('http://stackoverflow.com/search?tab=relevance&q=compare%20arrays%20python')
-	# 		print( x.read() )
-	# 		return
-	# 	except:
-	# 		print('fucked it')
-
-	# 	self.result = False
 
 
 
 
-#P:
 
 
 
-	# def run(self, edit):
-	# 	self.view.insert(edit, 0, "Hello, World!")
+
+#P: abstract class java
 
 
-# class twoCommand(sublime_plugin.Plugin):
 
-# 	def onPostSave(self, view):
-# 		print "test"
+#P: python run terminal command
+
+
+#P: reverse array in java
+
+
+
+
+#P: jquery last element
+
+
+
+
+
+#P:reverse array in Java :css :gist :verbose
+
+
+#P:compare arrays python
+
+
+
+
+
+
+
+
+#P: singleton in python
+# loop through the array
+
+# slpit array on 4th item
+
+
+# WITH TAGS
+#re.compile('(<div class="deg">.*?</div>)')
+
+# WITHOUT TAGS
+#re.compile('<div class="deg">(.*?)</div>')
+
