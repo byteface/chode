@@ -103,6 +103,8 @@ will get very different results
 
 ## EXAMPLE
 
+These 2 images show a BEFORE and AFTER, non verbose, code injection when pressing save on a line of 'chode'...
+
 ![alt tag](https://raw.github.com/byteface/chode/master/screenshots/shot1.png)
 
 ![alt tag](https://raw.github.com/byteface/chode/master/screenshots/shot2.png)
