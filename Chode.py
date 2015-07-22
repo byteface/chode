@@ -29,7 +29,10 @@ import re
 
 #p: delete the mongo database
 
+
 #p:compare arrays python
+
+
 
 #p: singleton in python
 
@@ -233,21 +236,48 @@ class StackoverflowApiCall(threading.Thread):
 			
 			reg = re.compile('<td class="answercell">(.*?)</td>')
 			#reg = re.compile('<div class="post-text" itemprop="text">(.*?)</div>')
+
+			p = reg.search( str(q.read()) )
+			#print('----')
+			#print(p)
+		
+			self.result = p.groups()[0]
+			return
 		
 		else:
 
 			print('non verbose')
 
+			reg = re.compile('<td class="answercell">(.*?)</td>')
+			p = reg.search( str(q.read()) )
+
+			answer = p.groups()[0]
+			# print('---- ANSER')
+			# print(answer)
+
+			# # CODE ONLY
+			reg2 = re.compile('<code>(.*?)</code>')
+			ans = reg2.search( answer )
+
+			print('------------------')
+			print(ans.groups()[0])
+
+			self.result = ans.groups()[0]
+			return
+
+
 			# NON VERBOSE MODE
-			reg = re.compile('<code>(.*?)</code>')
+			#reg = re.compile('<code>(.*?)</code>')
 
 
-		p = reg.search( str(q.read()) )
+
+
+#		p = reg.search( str(q.read()) )
 		#print('----')
 		#print(p)
 	
-		self.result = p.groups()[0]
-		return
+#		self.result = p.groups()[0]
+#		return
 
 		# answer = p.groups()[0]
 
