@@ -1,0 +1,12 @@
+{
+    
+    // TODO - find out how these settings work and use them
+    // verbose false will return code block only by default on calls rather than whole post
+    "verbose": true//,
+    
+    //"option": true
+    //"run_on_save": true // TODO-  user can turn off and just use command alt+shift+c
+
+
+
+}

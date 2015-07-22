@@ -34,23 +34,11 @@ I figured it would be cool if code comments could quickly generate code exmaples
 
 
 
-## Installation
-Download this whole folder and put in Sublime Packages folder, on my mac it looks like this...
-
-
-/Users/mike/Library/Application\ Support/Sublime\ Text\ 3/Packages/Chode
-
-
-restart and you're good to go.
-
-
-
-
 ## Usage
 
-Chode runs when you save BUT it only analyses the line your cursor is currently on.
+Chode runs when you save. It only analyses the line your cursor is currently on.
 
-if the line starts with a comment, followed by a 'p', then a colon. ie. in python...
+if the line starts with a comment, followed by a 'p', then a colon. ie. in python... (at mo only hashtag works. will add more comments soon)
 
 
 #p:
@@ -69,6 +57,48 @@ click on that line, press save, would become...
 
 #p: a singleton in python
 <TOP ANSWER FROM STACK OVERFLOW GETS INSERTED HERE>
+
+
+REMEMBER - To work your cursor must be ON THE LINE YOU WANT TO RUN and then press save.
+
+try some of these examples. install plugin, paste these into a document, put cursor on line, press save.
+
+
+#p: css round corners
+
+#p: jquery last item in a list
+
+#p: abstract class java
+
+#p: python run terminal command
+
+#p: reverse array in java
+
+#p: jquery last element
+
+#p:reverse array in Java :css :gist :verbose
+
+#p:compare arrays python
+
+#p: singleton in python
+
+
+
+The top post is returned. You probs just want to delete the comments and keep whats in the <code> block.
+
+
+
+## Installation
+Download this whole folder and put in Sublime Packages folder, on my mac it looks like this...
+
+
+/Users/mike/Library/Application\ Support/Sublime\ Text\ 3/Packages/Chode
+
+
+restart and you're good to go.
+
+
+
 
 
 
