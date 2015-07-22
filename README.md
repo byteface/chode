@@ -19,26 +19,27 @@ So I often write pseudo code / comments when developing or stubbing out an app o
 
 # add it to the array and dispatch and event
 
-# write it to the mongo database
+# delete the mongo database
+
 
 etc
 
 
-I then go about writing the real code, comment at a time. This is also useful when delegating work or showing others how you're thinking. You can stub whole applications quickly rather than making it up as you go and helps you to architect and discuss different posibilities or options.
+I then go about writing the real code, comment at a time. This is also useful when delegating work or showing others how you're thinking of solving a problem. You can stub whole applications quickly.
 
 
 Most people use Stackoverflow a lot. Even if you think you know the answer, It's useful to check incase there's a newer or better way to do things.
 
 
-I figured it would be cool if code comments could quickly generate code exmaples to build off. pseudo code + stackoverflow = Chode. It took just a few hours to get a 'my first sublime plugin' working prototype and here it is.
+I figured it would be cool if code comments could quickly become code exmaples to build off. pseudo code + stackoverflow = Chode. It took just a few hours to get a diiiiirty 'my first sublime plugin' working prototype and here it is.
 
 
 
 ## Usage
 
-Chode runs when you save. It only analyses the line your cursor is currently on.
+Chode runs when you save. IMPORTANT - It only analyses the line your cursor is currently on.
 
-if the line starts with a comment, followed by a 'p', then a colon. ie. in python... (at mo only hashtag works. will add more comments soon)
+If the line starts with a comment, followed by a 'p', then a colon. ie. (at mo only hashtag works. will add more comments soon)
 
 
 #p:
@@ -61,30 +62,41 @@ click on that line, press save, would become...
 
 REMEMBER - To work your cursor must be ON THE LINE YOU WANT TO RUN and then press save.
 
-try some of these examples. install plugin, paste these into a document, put cursor on line, press save.
+why not try some of these examples. install plugin, paste these into a document, put cursor on line, press save.
 
 
 #p: css round corners
 
-#p: jquery last item in a list
-
 #p: abstract class java
-
-#p: python run terminal command
 
 #p: reverse array in java
 
-#p: jquery last element
+#p:reverse array in Java
 
-#p:reverse array in Java :css :gist :verbose
+# NOTICE THIS ONE HAS A PARAMETER - see about them below
+#p:compare arrays python :v
+
+
+
+The code block from teh top post is injected into your code.
+
+
+## PARAMETERS
+
+:v
+
+makes it verbose. which means it add the whole post not just the first <code> block. Without the :v flag we only paste the first code block
+
+try it yourself
+
+#p:compare arrays python :v
+
+or
 
 #p:compare arrays python
 
-#p: singleton in python
+will get very different results
 
-
-
-The top post is returned. You probs just want to delete the comments and keep whats in the <code> block.
 
 
 
@@ -95,9 +107,7 @@ Download this whole folder and put in Sublime Packages folder, on my mac it look
 /Users/mike/Library/Application\ Support/Sublime\ Text\ 3/Packages/Chode
 
 
-restart and you're good to go.
-
-
+restart and you're good to go. I will hopefully make it all more proper soon and get into PackageControl
 
 
 
@@ -123,6 +133,9 @@ paramters to return answers from 2nd 3rd results. or newest or other filters?
 settings with various default. i.e. verbose / non verbose. 
 
 :gist - instead of checking stackoverflow check gist - (DO LOADS OF THESE?)
+
+a paramter that can return 2nd or 3rd answer?... or way to loop through answers.
+
 
 
 if popular write same plugin for other tools??? who knows.

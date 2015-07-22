@@ -21,17 +21,13 @@ import re
 
 #p: css round corners
 
-#p: jquery last item in a list
+#p: jquery last item in a list :v
 
-#p: abstract class java
-
-#p: python run terminal command
+#p:abstract class java
 
 #p: reverse array in java
 
-#p: jquery last element
-
-#p:reverse array in Java :css :gist :verbose
+#p: delete the mongo database
 
 #p:compare arrays python
 
@@ -101,7 +97,7 @@ class ExampleCommand(sublime_plugin.TextCommand):
 class EventsCommand(sublime_plugin.EventListener):
 
 	def on_post_save_async(self, view):
-		view.run_command('pseudo')
+		view.run_command('chode')
 
 
 
@@ -118,7 +114,7 @@ class duplicateCommand(sublime_plugin.TextCommand):
             #     self.view.insert(edit, region.begin(), self.view.substr(region))
 
 
-class PseudoCommand(sublime_plugin.TextCommand):
+class ChodeCommand(sublime_plugin.TextCommand):
     
     def run(self, view):
 
@@ -134,10 +130,11 @@ class PseudoCommand(sublime_plugin.TextCommand):
     			print('ok')
 
 				# clean it up for a query
-    			selected = selected.split('#p:')[1].strip()
+    			# selected = selected.split('#p:')[1].strip()
+    			selected, params = self.get_parameters(selected)
 
     			threads=[]
-    			thread=StackoverflowApiCall( self.view.sel(), selected, line, 5 )
+    			thread=StackoverflowApiCall( self.view.sel(), selected, params, line, 5 )
     			threads.append(thread)
     			thread.start()
     			sublime.set_timeout(lambda:self.handle_threads(threads,self.view),100)
@@ -163,13 +160,42 @@ class PseudoCommand(sublime_plugin.TextCommand):
 
 
 
+    def get_parameters(self,string):
+    	
+    	# strip off the call
+    	string = string.split('#p:')[1].strip()
+
+    	p={}
+
+    	params = string.split(':')
+
+    	query=params[0].strip()
+
+    	# for param in params:
+    	# 	if 'css' in param // TODO - langs
+
+    	p['verbose']=False
+
+    	for param in params:
+    		if 'v' in param.strip():
+    			p['verbose']=True
+
+
+    	return query, p
+    			
+
+
+
+
+
 class StackoverflowApiCall(threading.Thread):
 
-	def __init__(self, sel, string, line, timeout):
+	def __init__(self, sel, string, params, line, timeout):
 		self.sel = sel
 		self.query = string
-		self.timeout = timeout
+		self.params = params
 		self.line = line
+		self.timeout = timeout
 		self.result = None
 		threading.Thread.__init__(self)
 
@@ -200,15 +226,25 @@ class StackoverflowApiCall(threading.Thread):
 		
 
 		# VERBOSE MODE
-		reg = re.compile('<td class="answercell">(.*?)</td>')
-		#reg = re.compile('<div class="post-text" itemprop="text">(.*?)</div>')
+
+		if self.params['verbose'] == True:
+
+			print('verbose')
+			
+			reg = re.compile('<td class="answercell">(.*?)</td>')
+			#reg = re.compile('<div class="post-text" itemprop="text">(.*?)</div>')
 		
-		# NON VERBOSE MODE
-		#reg = re.compile('<code>(.*?)</code>')
+		else:
+
+			print('non verbose')
+
+			# NON VERBOSE MODE
+			reg = re.compile('<code>(.*?)</code>')
+
 
 		p = reg.search( str(q.read()) )
-		print('----')
-		print(p)
+		#print('----')
+		#print(p)
 	
 		self.result = p.groups()[0]
 		return
