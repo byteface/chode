@@ -6,11 +6,38 @@ import sys
 import os
 import re
 
-# create a tag with a comment, caps P then colon i.e
+# create comment, then a p, then a colon i.e
 
-#P:
+#p:
 
-# comment will the become a query to stackoverflow, the top answer is returned directly into your code
+#TODO add more. currently only python . do //p:  asap
+
+#TODO - parse multilines.. means stripping ends off. <!--p: or /*p:
+
+# comment will be sent as a query to stackoverflow, the top answer of the top result is returned directly into your code
+# for different answers try rewording your query.
+
+# To work your cursor must be ON THE LINE YOU WANT TO RUN and then press save.
+
+
+#p: css round corners
+
+#p: jquery last item in a list
+
+#p: abstract class java
+
+#p: python run terminal command
+
+#p: reverse array in java
+
+#p: jquery last element
+
+#p:reverse array in Java :css :gist :verbose
+
+#p:compare arrays python
+
+#p: singleton in python
+
 
 
 # notes --
@@ -27,14 +54,14 @@ import re
 class ExampleCommand(sublime_plugin.TextCommand):
 
 
-	def normalize_line_endings(self, string):
-	        string = string.replace('\r\n', '\n').replace('\r', '\n')
-	        line_endings = self.view.settings().get('default_line_ending')
-	        if line_endings == 'windows':
-	            string = string.replace('\n', '\r\n')
-	        elif line_endings == 'mac':
-	            string = string.replace('\n', '\r')
-	        return string
+	# def normalize_line_endings(self, string):
+	#         string = string.replace('\r\n', '\n').replace('\r', '\n')
+	#         line_endings = self.view.settings().get('default_line_ending')
+	#         if line_endings == 'windows':
+	#             string = string.replace('\n', '\r\n')
+	#         elif line_endings == 'mac':
+	#             string = string.replace('\n', '\r')
+	#         return string
 
 
 	def run(self, edit, **args ):
@@ -55,6 +82,14 @@ class ExampleCommand(sublime_plugin.TextCommand):
 
 		#output = self.normalize_line_endings(output)
 
+		#output = urllib.parse.quote( output, encoding='utf-8', errors='replace')
+
+
+		# TODO - check if i only have to do this for HTML code. we may need to take the interpretter class of the HTML class to decide parsing
+
+		import html.parser
+		h = html.parser.HTMLParser()
+		output = h.unescape( output )
 
 		self.view.insert(edit, args['line_length'], output )
 
@@ -94,12 +129,13 @@ class PseudoCommand(sublime_plugin.TextCommand):
 
     		print( 'pseudo selected:', selected )
 
-    		if selected.startswith('#P:'):
+    		# TODO - startswith func that returns char it starts with... or empty string
+    		if selected.startswith('#p:'):
     			
     			print('ok')
 
 				# clean it up for a query
-    			selected = selected.split('#P:')[1].strip()
+    			selected = selected.split('#p:')[1].strip()
 
     			threads=[]
     			thread=StackoverflowApiCall( self.view.sel(), selected, line, 5 )
@@ -163,19 +199,38 @@ class StackoverflowApiCall(threading.Thread):
 
 		q = urllib.request.urlopen( "http://stackoverflow.com/%s" % qs[1] )
 		
-		reg = re.compile('<code>(.*?)</code>')
+
+		# VERBOSE MODE
+		reg = re.compile('<td class="answercell">(.*?)</td>')
+		#reg = re.compile('<div class="post-text" itemprop="text">(.*?)</div>')
+		
+		# NON VERBOSE MODE
+		#reg = re.compile('<code>(.*?)</code>')
 
 		p = reg.search( str(q.read()) )
 		print('----')
-		#print(p)
-		print(p.groups()[0])
-		
-
-
-
+		print(p)
+	
 		self.result = p.groups()[0]
 		return
-		
+
+		# answer = p.groups()[0]
+
+		# print('---- ANSER')
+		# print(answer)
+
+
+		# # CODE ONLY
+		# reg2 = re.compile('<code>(.*?)</code>')
+		# ans = reg2.search( answer )
+
+		# print('------------------')
+		# print(ans.groups()[0])
+
+		# self.result = ans.groups()[0]
+		# return
+
+
 		# TODO - if fail no result
 		self.result = False
 
@@ -183,46 +238,6 @@ class StackoverflowApiCall(threading.Thread):
 
 
 
-
-
-
-
-
-
-#P: abstract class java
-
-
-
-#P: python run terminal command
-
-
-#P: reverse array in java
-
-
-
-
-#P: jquery last element
-
-
-
-
-
-#P:reverse array in Java :css :gist :verbose
-
-
-#P:compare arrays python
-
-
-
-
-
-
-
-
-#P: singleton in python
-# loop through the array
-
-# slpit array on 4th item
 
 
 # WITH TAGS
