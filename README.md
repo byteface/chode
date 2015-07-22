@@ -1,6 +1,7 @@
 ### Chode
 TODO - insert image here
 
+
 ## About
 
 Chode is a Sublime Plugin to help you CHeat at cODE. I wrote it in few hours and is a working proof of concept.
@@ -31,7 +32,7 @@ I then go about writing the real code, comment at a time. This is also useful wh
 Most people use Stackoverflow a lot. Even if you think you know the answer, It's useful to check incase there's a newer or better way to do things.
 
 
-I figured it would be cool if code comments could quickly become code exmaples to build off. pseudo code + stackoverflow = Chode. It took just a few hours to get a diiiiirty 'my first sublime plugin' working prototype and here it is.
+I figured it would be cool if code comments could quickly become code examples. pseudo code + stackoverflow = Chode. It took just a few hours to get a diiiiirty 'my first sublime plugin' working prototype and here it is.
 
 
 
@@ -86,7 +87,7 @@ The code block from teh top post is injected into your code.
 ```
 :v
 ```
-makes it verbose. which means it add the whole post not just the first <code> block. Without the :v flag we only paste the first code block
+makes it verbose. which means it add the whole post not just the first code block. Without the :v flag we only paste the first code block
 
 try it yourself
 ```
@@ -99,6 +100,12 @@ or
 will get very different results
 
 
+
+## EXAMPLE
+
+![alt tag](https://raw.github.com/byteface/chode/master/screenshots/shot1.png)
+
+![alt tag](https://raw.github.com/byteface/chode/master/screenshots/shot2.png)
 
 
 ## Installation
@@ -114,7 +121,7 @@ restart and you're good to go. I will hopefully make it all more proper soon and
 
 
 ## FUTURE
-
+```
 I'm a busy guy and for now, whilst clunky, this is serving it's intended purpose. However I would love to do this...
 
 • detect current language by getting filename. auto search on that language
@@ -136,7 +143,7 @@ settings with various default. i.e. verbose / non verbose.
 :gist - instead of checking stackoverflow check gist - (DO LOADS OF THESE?)
 
 a paramter that can return 2nd or 3rd answer?... or way to loop through answers.
-
+```
 
 
 if popular write same plugin for other tools??? who knows.
