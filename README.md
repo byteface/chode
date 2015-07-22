@@ -8,7 +8,7 @@ Chode is a Sublime Plugin to help you CHeat at cODE. I wrote it in few hours and
 
 So I often write pseudo code / comments when developing or stubbing out an app or piece of functionality as a series of steps. i.e.
 
-
+```
 # create some class
 
 # create some function
@@ -20,7 +20,7 @@ So I often write pseudo code / comments when developing or stubbing out an app o
 # add it to the array and dispatch and event
 
 # delete the mongo database
-
+```
 
 etc
 
@@ -41,30 +41,30 @@ Chode runs when you save. IMPORTANT - It only analyses the line your cursor is c
 
 If the line starts with a comment, followed by a 'p', then a colon. ie. (at mo only hashtag works. will add more comments soon)
 
-
+```
 #p:
-
+```
 
 then everything after those characters will get sent to stackoverflow as a query. the top link is selected, then the best answer from that link inserted into your code.
 
 
 i.e
-
+```
 #p: a singleton in python
-
+```
 
 click on that line, press save, would become...
 
-
+```
 #p: a singleton in python
 <TOP ANSWER FROM STACK OVERFLOW GETS INSERTED HERE>
-
+```
 
 REMEMBER - To work your cursor must be ON THE LINE YOU WANT TO RUN and then press save.
 
 why not try some of these examples. install plugin, paste these into a document, put cursor on line, press save.
 
-
+```
 #p: css round corners
 
 #p: abstract class java
@@ -75,7 +75,7 @@ why not try some of these examples. install plugin, paste these into a document,
 
 # NOTICE THIS ONE HAS A PARAMETER - see about them below
 #p:compare arrays python :v
-
+```
 
 
 The code block from teh top post is injected into your code.
@@ -83,18 +83,19 @@ The code block from teh top post is injected into your code.
 
 ## PARAMETERS
 
+```
 :v
-
+```
 makes it verbose. which means it add the whole post not just the first <code> block. Without the :v flag we only paste the first code block
 
 try it yourself
-
+```
 #p:compare arrays python :v
-
+```
 or
-
+```
 #p:compare arrays python
-
+```
 will get very different results
 
 
@@ -103,9 +104,9 @@ will get very different results
 ## Installation
 Download this whole folder and put in Sublime Packages folder, on my mac it looks like this...
 
-
+```
 /Users/mike/Library/Application\ Support/Sublime\ Text\ 3/Packages/Chode
-
+```
 
 restart and you're good to go. I will hopefully make it all more proper soon and get into PackageControl
 
