@@ -43,6 +43,9 @@ import re
 class InjectCommand(sublime_plugin.TextCommand):
 
 	def run(self, edit, **args ):
+		'''
+		this command cleans up the code strings returned and injects them into sublime
+		'''
 
 		# NOTE - bit worried this strips newlines out of code. so will have to look at better solution.
 		output = '\n' + '\n'.join( args['result'].split('\\n') )
@@ -160,9 +163,14 @@ class StackoverflowApiCall(threading.Thread):
 	def run(self):
 
 		url = 'http://stackoverflow.com/search?tab=relevance&q=%s' % urllib.parse.quote(self.query)
-		print('url::', url)
+		# print('url::', url)
 
-		resp = urllib.request.urlopen( url )
+
+		request = urllib.request.Request(url)
+		request.add_header('User-Agent','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.47 Safari/537.36')
+		resp = urllib.request.urlopen(request)
+
+		#resp = urllib.request.urlopen( url )
 		#print( resp.read().decode('utf-8') )
 
 		r = re.compile('(?<=href=").*?(?=")')
@@ -177,10 +185,24 @@ class StackoverflowApiCall(threading.Thread):
 		# 		print(link)
 
 
-		#print(qs[1])
+		# print('HEY HEY HEY ----------------')
+		# print(qs[1])
 
-		q = urllib.request.urlopen( "http://stackoverflow.com/%s" % qs[1] )
+
+		url2 = "http://stackoverflow.com/%s" % qs[1]
+
+		request2 = urllib.request.Request(url2)
+		request2.add_header('User-Agent','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.47 Safari/537.36')
+		q = urllib.request.urlopen(request2)
+
+		#q = urllib.request.urlopen(  )
 		
+
+		#p:compare arrays python
+
+		#p: test some other query
+
+		#p: c++ recursion error happening :v
 
 		# VERBOSE MODE
 

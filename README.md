@@ -5,6 +5,16 @@ TODO - insert image here
 injects the best stack overflow answer you need directly into sublime without leaving sublime.
 
 
+## NOTE -
+so chode can get blocked. (not surprised it was a proof of concept). If it stops working just visit a url in your browser...
+
+i.e:
+http://stackoverflow.com/search?tab=relevance&q=compare%20arrays%20python
+
+and click the captcha button. it will now work again. I will try setup proper access via the API rather than scrape when i get time.
+
+
+
 ## About
 
 Chode is a Sublime Plugin to help you CHeat at cODE. I wrote it in few hours and is a working proof of concept.
